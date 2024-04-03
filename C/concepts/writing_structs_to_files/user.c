@@ -40,32 +40,27 @@ unsigned char* user_to_stream(User* user, int* s_size)
     
     unsigned char* stream = (unsigned char*)malloc(*s_size);
 
-    // *((int*)stream) = *s_size - sizeof(int);
     *((int*)stream) = user->id;
-    *((int*)stream + 4) = strlen(user->username);
-    memcpy(stream + 8, user->username, strlen(user->username));
-    *((int*)stream + (8 + strlen(user->username))) = strlen(user->email);
-    memcpy(stream + (12 + strlen(user->username) + 4), user->email, strlen(user->email));
+    *((int*)stream + sizeof(int)) = strlen(user->username);
+    memcpy(stream + sizeof(int) * 2, user->username, strlen(user->username));
+    *((int*)stream + (sizeof(int) * 2 + strlen(user->username))) = strlen(user->email);
+    memcpy(stream + (sizeof(int) * 3 + strlen(user->username) + 4), user->email, strlen(user->email));
     
     return stream;
 }
 
 void stream_to_user(unsigned char* stream, int s_size)
 {
-    printf("%d\n", s_size);
-
     int id = *((int*)stream);
-    int username_size = *((int*)stream + 4);
+    int username_size = *((int*)stream + sizeof(int));
+    int email_size = *((int*)stream + sizeof(int) * 2 + username_size);
 
-    // char* username = ((char*)stream + 8);
     char* username = (char*)malloc(username_size + 1);
-    memcpy(username, (char*)stream + 8, username_size);
+    memcpy(username, (char*)stream + sizeof(int) * 2, username_size);
     username[username_size + 1] = 0;
 
-    int email_size = *((int*)stream + (8 + username_size));
     char* email = (char*)malloc(email_size + 1);
-    memcpy(email, (char*)stream + (12 + username_size), email_size);
-    // email[email_size + 1] = 0;
+    memcpy(email, (char*)stream + sizeof(int) * 3 + username_size, email_size);
 
     printf("\nid: %d\n", id);
     printf("username size: %d\n", username_size);
