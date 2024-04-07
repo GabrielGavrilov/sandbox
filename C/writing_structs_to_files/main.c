@@ -18,7 +18,7 @@ void test_writing_user_to_file()
     User* user = gen_test_user();
     unsigned char* stream = user_to_stream(user, &size);
 
-    printf("%d\n", stream);
+    printf("Stream: %d\n", stream);
 
     FILE* file = open_file("user.txt", "wb");
     write_file(file, stream, size);
@@ -28,15 +28,15 @@ void test_writing_user_to_file()
 
 void test_reading_user_from_file()
 {
-    printf("Before open\n");
     FILE* file = open_file("user.txt", "rb");
-    printf("After open\n");
     int file_size = get_file_length(file);
-    printf("After get file length\n");
 
     unsigned char* stream = read_file(file, file_size);
+ 
+    printf("stream: %d\nsize: %d\n", stream, file_size);
+ 
     stream_to_user(stream);
-    // printf("stream: %d\nsize: %d\n", stream, file_size);
+
 
     fclose(file);
 }
