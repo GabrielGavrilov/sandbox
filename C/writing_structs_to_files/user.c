@@ -53,7 +53,7 @@ void stream_to_user(unsigned char* stream)
 {
     int id = *((int*)stream);
     int username_size = *((int*)stream + sizeof(int));
-    int email_size = *((int*)stream + ((sizeof(int) * 2) + username_size));
+    int email_size = *((int*)stream + (sizeof(int) * 2 + username_size));
 
     char* username = (char*)malloc(username_size + 1);
     memcpy(username, (char*)stream + sizeof(int) * 2, username_size);

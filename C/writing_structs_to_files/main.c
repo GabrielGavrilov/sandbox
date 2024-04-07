@@ -43,7 +43,7 @@ void test_reading_user_from_file()
 
 int main(int argc, const char* argv[])
 {
-    // test_writing_user_to_file();
+    test_writing_user_to_file();
     test_reading_user_from_file();
 
     return 0;

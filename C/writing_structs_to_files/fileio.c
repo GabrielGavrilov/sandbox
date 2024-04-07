@@ -34,7 +34,7 @@ unsigned char* read_file(FILE* file, int file_size)
         return NULL;
     }
 
-    fread(buffer, sizeof(char), file_size, file);
+    fread(buffer, sizeof(unsigned char), file_size, file);
     buffer[file_size] = 0;
 
     return buffer;
