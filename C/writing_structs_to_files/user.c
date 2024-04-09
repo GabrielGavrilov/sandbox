@@ -37,9 +37,9 @@ void stream_to_user(unsigned char* stream)
     memcpy(username, (char*)stream + sizeof(int) * 2, username_size);
     username[username_size] = 0;
 
-     char* email = (char*)malloc(email_size + 1);
-     memcpy(email, (char*)stream + sizeof(int) * 3 + username_size, email_size);
-     email[email_size] = 0;
+    char* email = (char*)malloc(email_size + 1);
+    memcpy(email, (char*)stream + sizeof(int) * 3 + username_size, email_size);
+    email[email_size] = 0;
 
     printf("\nid: %d\n", id);
     printf("username size: %d\n", username_size);
