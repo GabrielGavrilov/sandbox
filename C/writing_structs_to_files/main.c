@@ -24,7 +24,13 @@ void test_writing_user_to_file()
     write_file(file, stream, size);
 
     fclose(file);
+
+    printf("Wrote the following user into 'user.txt':\n");
+    stream_to_user(stream);
 }
+
+
+
 
 void test_reading_user_from_file()
 {
@@ -43,7 +49,7 @@ void test_reading_user_from_file()
 
 int main(int argc, const char* argv[])
 {
-    test_writing_user_to_file();
+    // test_writing_user_to_file();
     test_reading_user_from_file();
 
     return 0;
