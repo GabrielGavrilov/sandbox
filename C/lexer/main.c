@@ -1,8 +1,11 @@
+#include "comlib.h"
+#include "tokens.h"
+#include "keywords.h"
 #include "lexer.h"
 
 int main(int argc, char** argv)
 {
-    char str[] = "\"Hello, World!\"  +      - \"Goodbye\"   */";
+    char str[] = "print \"Hello, World!\" +- * / / print";
     Lexer* lexer = init_lexer(str);
     Token token = get_next_token_in_lexer(lexer);
 
@@ -12,5 +15,6 @@ int main(int argc, char** argv)
         token = get_next_token_in_lexer(lexer);
     }
 
+    free_lexer(lexer);
     return 0;
 }

@@ -66,32 +66,57 @@ Token create_string_token(Lexer* lexer)
     return token;
 }
 
+TokenType get_keyword_type(char* value)
+{
+    for (int i = 0; i < sizeof(keywords[0])/sizeof(KeywordType); i++)
+    {
+        if(!strcmp(value, keywords[i].keyword))
+            return keywords[i].type;
+    }
+
+    return TOKEN_IDENTIFIER;
+}
+
+Token create_keyword_token(Lexer* lexer)
+{
+    Token token;
+    int start_pos = lexer->curr_pos;
+
+    while (isalpha(peek_lexer(lexer)))
+        advance_lexer(lexer);
+
+    char* value = substr(lexer->src, start_pos, lexer->curr_pos + 1);
+    token.type = get_keyword_type(value);
+    token.value = value;
+
+    return token;
+}
+
 Token get_next_token_in_lexer(Lexer* lexer)
 {
     skip_whitepsace(lexer);
     Token token;
 
-    switch(lexer->curr_char)
-    {
-        case '+':
-            token = create_token("+", TOKEN_PLUS);
-            break;
-        case '-':
-            token = create_token("-", TOKEN_MINUS);
-            break;
-        case '*':
-            token = create_token("*", TOKEN_ASTERISK);
-            break;
-        case '/':
-            token = create_token("/", TOKEN_SLASH);
-            break;
-        case '\"':
-            token = create_string_token(lexer);
-            break;
-        default:
-            token = create_token(NULL, TOKEN_EOF);
-            break;
-    }
+    if(lexer->curr_char == '+')
+        token = create_token("+", TOKEN_PLUS);
+    
+    else if(lexer->curr_char == '-')
+        token = create_token("-", TOKEN_MINUS);
+    
+    else if(lexer->curr_char == '*')
+        token = create_token("*", TOKEN_ASTERISK);
+    
+    else if(lexer->curr_char == '/')
+        token = create_token("/", TOKEN_SLASH);
+
+    else if(lexer->curr_char == '\"')
+        token = create_string_token(lexer);
+
+    else if(isalpha(lexer->curr_char))
+        token = create_keyword_token(lexer);
+
+    else if(lexer->curr_char == '\0')
+        token = create_token(NULL, TOKEN_EOF);
 
     advance_lexer(lexer);
     return token;
