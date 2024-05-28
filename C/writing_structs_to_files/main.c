@@ -12,6 +12,27 @@ User* gen_test_user()
     return user;
 }
 
+// input error here
+User* create_user()
+{
+    User* user = (User*)malloc(sizeof(User));
+
+    char username[7];
+    char email[7];
+
+    printf("username: ");
+    fgets(username, sizeof(username), stdin);
+
+    printf("email: ");
+    fgets(email, sizeof(email), stdin);
+
+    user->id = 1;
+    user->username = username;
+    user->email = email;
+
+    return user;
+}
+
 void test_writing_user_to_file()
 {
     int size = 0;
@@ -29,9 +50,6 @@ void test_writing_user_to_file()
     stream_to_user(stream);
 }
 
-
-
-
 void test_reading_user_from_file()
 {
     FILE* file = open_file("user.txt", "rb");
@@ -40,9 +58,7 @@ void test_reading_user_from_file()
     unsigned char* stream = read_file(file, file_size);
  
     printf("stream: %d\nsize: %d\n", stream, file_size);
- 
     stream_to_user(stream);
-
 
     fclose(file);
 }
@@ -51,6 +67,5 @@ int main(int argc, const char* argv[])
 {
     // test_writing_user_to_file();
     test_reading_user_from_file();
-
     return 0;
 }
